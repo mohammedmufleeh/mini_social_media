@@ -1,20 +1,32 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
 <h2>All Images</h2>
-{% for image in images %}
-<div>
-  <img src="{{ image.image.url }}" alt="{{ image.caption }}">
-  <p>{{ image.caption }}</p>
-  <p>Uploaded by:
-    {% for user in image.users.all %}
-      {% if not forloop.first %}, {% endif %}
-      {{ user.username }}
-    {% endfor %}
-  </p>
-</div>
+<div class="container">
+    <div class="row">
+        {% for image in images %}
+    
+            <div class="col-sm-6 col-md-4">
+                <div class="card " style="width: 18rem;">
+                    <img class="card-img-top" src="{{ image.image.url }}" alt="{{ image.caption }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ image.caption }}</h5>
+                        <p class="card-text">Uploaded by:
+                            {% for user in image.users.all %}
+                            {% if not forloop.first %}, {% endif %}
+                            {{ user.username }}
+                            {% endfor %}</p>
+                        <a href="{% url 'add_comment' image.pk %}" class="btn btn-dark">Comment</a>
+                    </div>
+                </div>
+            </div>
+     
+
 {% empty %}
-<p>No images uploaded yet.</p>
+<p>No images uploaded yet.</p></div>
 {% endfor %}
+</div>
+</div>
 {% endblock %}
+
+

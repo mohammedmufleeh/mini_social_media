@@ -12,3 +12,9 @@ class Image(models.Model):
 
     def __str__(self):
         return self.caption
+    
+class Comment(models.Model):
+    photo = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    posted_at = models.DateTimeField(auto_now_add=True)

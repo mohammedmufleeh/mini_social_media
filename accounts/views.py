@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .forms import UserRegistrationForm, UserLoginForm,ImageForm
-from . models import Image
+from . models import Image,Comment
 
 def signup_view(request):
     if request.method == 'POST':
@@ -46,4 +48,15 @@ def upload_image(request):
     else:
         form = ImageForm()
     return render(request, 'upload.html', {'form': form})
+
+@login_required
+def add_comment(request, pk):
+    photo = get_object_or_404(Image, pk=pk)
+
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        comment = Comment.objects.create(photo=photo, author=request.user, text=text)
+        return redirect('add_comment', pk=photo.pk)
+
+    return render(request, 'photo_detail.html', {'photo': photo})
 

@@ -1,7 +1,8 @@
 from django.urls import path
 from . import views
+from django.conf import settings
 
-app_name = 'accounts'
+
 
 urlpatterns = [
     path('signup/', views.signup_view, name='signup'),
@@ -9,4 +10,5 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('home/', views.home,name='home'),
     path('upload/', views.upload_image, name='upload_image'),
+    path('photos/<int:pk>/comment/', views.add_comment, name='add_comment'),
 ]

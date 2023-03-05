@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div  class="card mb-3" style="width: 18rem;">
+    <img src="{{ photo.image.url }}" class="card-img-top" alt="{{ photo.caption }}">
+    <div class="card-body">
+      <h5 class="card-title">{{ photo.caption }}</h5>
+      
+    </div>
+  </div>
+    {% comment %} <h1>{{ photo.caption }}</h1>
+    <img src="{{ photo.image.url }}" alt="{{ photo.caption }}"> {% endcomment %}
+
+    <h2>Comments:</h2>
+    <ul>
+    {% for comment in photo.comments.all %}
+        <li>{{ comment.author.username }}: {{ comment.text }}</li>
+    {% empty %}
+        <li>No comments yet.</li>
+    {% endfor %}
+    </ul>
+
+    <form method="post" action="{% url 'add_comment' photo.id %}">
+        {% csrf_token %}
+        <label for="id_text">Add a comment:</label>
+        <textarea id="id_text" name="text"></textarea>
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}
